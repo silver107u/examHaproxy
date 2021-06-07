@@ -1,0 +1,19 @@
+---
+# tasks file for haproxy
+
+- yum:
+        name: haproxy
+        state: present
+- template:
+        src: haproxy.cfg.j2
+        dest: /etc/haproxy/haproxy.cfg
+  notify: restart service
+- service:
+        name: haproxy
+        state: started
+        enabled: true
+- firewalld:
+        port: 80/tcp
+        immediate: yes
+        permanent: true
+        state: enabled
